@@ -16,11 +16,15 @@ def initialize(self, opt):
         self.netD_A = networks.Discriminator().cuda()
         self.netD_B = networks.Discriminator().cuda()
         
-        self.criterionGAN = networks.GANLoss(use_lsgan=not opt.no_lsgan, tensor=self.Tensor)
+        #self.criterionGAN = networks.GANLoss(use_lsgan=not opt.no_lsgan, tensor=self.Tensor)
+        self.criterionGAN = nn.MSELoss()
         self.criterionCycle = torch.nn.L1Loss()
         self.criterionIdt = torch.nn.L1Loss()
+        self.real_label = 1.0
+        self.fake_label = 0.0
+        
 def forward(self):
-        self.real_A = Variable(self.input_A)##############
+        self.real_A = Variable(self.input_A) ##############
         self.real_B = Variable(self.input_B)
         
         
@@ -73,7 +77,7 @@ def backward_D_basic(self, netD, real, fake):
         # GAN loss D_A(G_A(A))
         fake_B = self.netG_A(self.real_A)
         pred_fake = self.netD_A(fake_B)
-        loss_G_A = self.criterionGAN(pred_fake, True)
+        loss_G_A = self.criterionGAN(pred_fake, True)#################
 
         # GAN loss D_B(G_B(B))
         fake_A = self.netG_B(self.real_B)
