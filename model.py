@@ -1,3 +1,29 @@
+import networks
+import option as opt
+
+def initialize(self, opt):
+        self.opt = opt
+        self.gpu_ids = opt.gpu_ids
+        self.isTrain = opt.isTrain
+        self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
+        self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
+
+        self.netG_A = networks.Generator(opt.input_nc, opt.output_nc,
+                                                opt.ngf, opt.norm, not opt.no_dropout,opt.gpu_ids)
+        self.netG_B = networks.Generator(opt.input_nc, opt.output_nc,
+                                                opt.ngf, opt.norm, not opt.no_dropout,opt.gpu_ids)
+
+        self.netD_A = networks.Discriminator().cuda()
+        self.netD_B = networks.Discriminator().cuda()
+        
+        self.criterionGAN = networks.GANLoss(use_lsgan=not opt.no_lsgan, tensor=self.Tensor)
+        self.criterionCycle = torch.nn.L1Loss()
+        self.criterionIdt = torch.nn.L1Loss()
+def forward(self):
+        self.real_A = Variable(self.input_A)##############
+        self.real_B = Variable(self.input_B)
+        
+        
 def backward_D_basic(self, netD, real, fake):
         # Real
         pred_real = netD(real)
