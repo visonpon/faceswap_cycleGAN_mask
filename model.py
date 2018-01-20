@@ -1,7 +1,12 @@
-class ResnetGenerator(nn.Module):
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+import torch.nn.functional as F
+
+class Generator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, gpu_ids=[], padding_type='reflect'):
         assert(n_blocks >= 0)
-        super(ResnetGenerator, self).__init__()
+        super(Generator, self).__init__()
         self.input_nc = input_nc
         self.output_nc = output_nc
         self.ngf = ngf
