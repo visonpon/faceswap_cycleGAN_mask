@@ -22,6 +22,9 @@ def initialize(self, opt):
         self.criterionIdt = torch.nn.L1Loss()
         self.real_label = 1.0
         self.fake_label = 0.0
+        self.real_tensor = self.Tensor(input.size()).fill_(self.real_label)
+        self.real_label_var = Variable(self.real_tensor, requires_grad=False)
+        self.target_tensor = self.real_label_var
         
 def forward(self):
         self.real_A = Variable(self.input_A) ##############
@@ -77,12 +80,12 @@ def backward_D_basic(self, netD, real, fake):
         # GAN loss D_A(G_A(A))
         fake_B = self.netG_A(self.real_A)
         pred_fake = self.netD_A(fake_B)
-        loss_G_A = self.criterionGAN(pred_fake, True)#################
+        loss_G_A = self.criterionGAN(pred_fake, self.target_tensor)#################
 
         # GAN loss D_B(G_B(B))
         fake_A = self.netG_B(self.real_B)
         pred_fake = self.netD_B(fake_A)
-        loss_G_B = self.criterionGAN(pred_fake, True)
+        loss_G_B = self.criterionGAN(pred_fake, self.target_tensor)
 
         # Forward cycle loss
         rec_A = self.netG_B(fake_B)
