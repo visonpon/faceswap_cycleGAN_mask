@@ -102,3 +102,32 @@ class ResnetBlock(nn.Module):
     def forward(self, x):
         out = x + self.conv_block(x)
         return out
+
+class Discriminator(nn.Module):
+    def __init__(self,gpu_ids=[]):
+        super(Discriminator, self).__init__()
+        self.gpu_ids = gpu_ids
+        self.conv_block = nn.Sequential(
+            nn.Conv2d(3,   64,  4, 2),
+            nn.BatchNorm2d(64),
+            nn.LeakyReLU(),
+            nn.Conv2d(64,  128,  4, 2),
+            nn.BatchNorm2d(128),
+            nn.LeakyReLU(),
+            nn.Conv2d(128,  256,  4, 2),
+            nn.BatchNorm2d(256),
+            nn.LeakyReLU(),
+            nn.Conv2d(256,  512, 4, 2),
+            nn.BatchNorm2d(512),
+            nn.LeakyReLU(),
+            nn.Conv2d(512, 512, 4),
+            nn.LeakyReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Conv2d(512, 1, 1),
+        )
+
+    def forward(self, input):
+        if len(self.gpu_ids) and isinstance(input.data, torch.cuda.FloatTensor):
+            output =  nn.parallel.data_parallel(self.conv_block, input, self.gpu_ids)
+        else:
+            output = self.conv_block
