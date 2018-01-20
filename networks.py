@@ -131,3 +131,10 @@ class Discriminator(nn.Module):
             output =  nn.parallel.data_parallel(self.conv_block, input, self.gpu_ids)
         else:
             output = self.conv_block
+            
+def print_network(net):
+    num_params = 0
+    for param in net.parameters():
+        num_params += param.numel()
+    print(net)
+    print('Total number of parameters: %d' % num_params)
