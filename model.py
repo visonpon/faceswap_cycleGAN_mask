@@ -1,5 +1,6 @@
 import networks
 import option as opt
+from PIL import Image
 
 def initialize(self, opt):
         self.opt = opt
@@ -26,9 +27,59 @@ def initialize(self, opt):
         self.real_label_var = Variable(self.real_tensor, requires_grad=False)
         self.target_tensor = self.real_label_var
         
+def make_dataset(dir):
+    images = []
+    assert os.path.isdir(dir), '%s is not a valid directory' % dir
+
+    for root, _, fnames in sorted(os.walk(dir)):
+        for fname in fnames:
+            if is_image_file(fname):
+                path = os.path.join(root, fname)
+                images.append(path)
+
+    return images
+
+def get_transform(opt):
+    transform_list = []
+    if opt.resize_or_crop == 'resize_and_crop':
+        osize = [opt.loadSize, opt.loadSize]
+        transform_list.append(transforms.Scale(osize, Image.BICUBIC))
+        transform_list.append(transforms.RandomCrop(opt.fineSize))
+    elif opt.resize_or_crop == 'crop':
+        transform_list.append(transforms.RandomCrop(opt.fineSize))
+    elif opt.resize_or_crop == 'scale_width':
+        transform_list.append(transforms.Lambda(
+            lambda img: __scale_width(img, opt.fineSize)))
+    elif opt.resize_or_crop == 'scale_width_and_crop':
+        transform_list.append(transforms.Lambda(
+            lambda img: __scale_width(img, opt.loadSize)))
+        transform_list.append(transforms.RandomCrop(opt.fineSize))
+
+    transform_list += [transforms.ToTensor(),
+                       transforms.Normalize((0.5, 0.5, 0.5),
+                                            (0.5, 0.5, 0.5))]
+    return transforms.Compose(transform_list)
+
+def set_input(self,input):
+        self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')
+        self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')
+        
+        self.A_paths = make_dataset(self.dir_A)
+        self.B_paths = make_dataset(self.dir_B)
+
+        self.A_paths = sorted(self.A_paths)
+        self.B_paths = sorted(self.B_paths)
+        self.A_size = len(self.A_paths)
+        self.B_size = len(self.B_paths)
+        self.A_img = Image.open(self.A_path).convert('RGB')
+        self.B_img = Image.open(self.B_path).convert('RGB')
+        self.A = transform(A_img)
+        self.B = transform(B_img)
+
+        
 def forward(self):
-        self.real_A = Variable(self.input_A) ##############
-        self.real_B = Variable(self.input_B)
+        self.real_A = Variable(self.A) ##############
+        self.real_B = Variable(self.B)
         
         
 def backward_D_basic(self, netD, real, fake):
