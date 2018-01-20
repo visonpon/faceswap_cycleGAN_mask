@@ -18,9 +18,16 @@ self.netG_B = networks.Generator(opt.input_nc, opt.output_nc,
 self.netD_A = networks.Discriminator().cuda()
 self.netD_B = networks.Discriminator().cuda()
 
+print('---------- Networks initialized -------------')
+        networks.print_network(self.netG_A)
+        networks.print_network(self.netG_B)
+        if self.isTrain:
+            networks.print_network(self.netD_A)
+            networks.print_network(self.netD_B)
+print('-----------------------------------------------')
+
 # training
 print('Training...')
-
 for epoch in range(0, opt.niter+ 1):
     epoch_start_time = time.time()
     epoch_iter = 0
