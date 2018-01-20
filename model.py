@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision
 
-from mnetworks import *
+from networks import *
 
 #init some hyperparameter
 
