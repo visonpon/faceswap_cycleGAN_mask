@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torchvision
-
+import option as op
 from networks import *
 
 #init some hyperparameter
