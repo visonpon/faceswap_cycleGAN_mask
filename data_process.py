@@ -18,12 +18,14 @@ def make_dataset(dir):
 
     return images
 
-class BaseDataLoader():
-    def __init__(self):
-        pass
-    def load_data():
-        return None
 
+def __scale_width(img, target_width):
+    ow, oh = img.size
+    if (ow == target_width):
+        return img
+    w = target_width
+    h = int(target_width * oh / ow)
+    return img.resize((w, h), Image.BICUBIC)
 def get_transform():
     transform_list = []
     if opt.resize_or_crop == 'resize_and_crop':
@@ -48,14 +50,12 @@ def get_transform():
                                             (0.5, 0.5, 0.5))]
     return transforms.Compose(transform_list)
 
-def __scale_width(img, target_width):
-    ow, oh = img.size
-    if (ow == target_width):
-        return img
-    w = target_width
-    h = int(target_width * oh / ow)
-    return img.resize((w, h), Image.BICUBIC)
-
+class BaseDataLoader():
+    def __init__(self):
+        pass
+    def load_data():
+        return None
+    
 class UnalignedDataset(BaseDataset):
     def initialize(self):
         self.root = dataroot
