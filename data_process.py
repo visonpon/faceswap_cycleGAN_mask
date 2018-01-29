@@ -50,13 +50,8 @@ def get_transform():
                                             (0.5, 0.5, 0.5))]
     return transforms.Compose(transform_list)
 
-class BaseDataLoader():
-    def __init__(self):
-        pass
-    def load_data():
-        return None
     
-class UnalignedDataset(BaseDataset):
+class UnalignedDataset():
     def initialize(self):
         self.root = dataroot
         self.dir_A = os.path.join(dataroot, phase + 'A')
@@ -108,12 +103,11 @@ class UnalignedDataset(BaseDataset):
     def name(self):
         return 'UnalignedDataset'
         
-class CustomDatasetDataLoader(BaseDataLoader):
+class CustomDatasetDataLoader():
     def name(self):
         return 'CustomDatasetDataLoader'
 
     def initialize(self):
-        BaseDataLoader.initialize(self)
         self.dataset = UnalignedDataset()
         self.dataloader = torch.utils.data.DataLoader(
             self.dataset,
