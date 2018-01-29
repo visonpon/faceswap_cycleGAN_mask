@@ -1,19 +1,60 @@
 import torch.utils.data
+import os
 import os.path
 import torchvision.transforms as transforms
-from data.base_dataset import BaseDataset, get_transform
-from data.image_folder import make_dataset
 from PIL import Image
-import PIL
 import random
 from data.base_data_loader import BaseDataLoader
+
+def make_dataset(dir):
+    images = []
+    assert os.path.isdir(dir), '%s is not a valid directory' % dir
+
+    for root, _, fnames in sorted(os.walk(dir)):
+        for fname in fnames:
+            if is_image_file(fname):
+                path = os.path.join(root, fname)
+                images.append(path)
+
+    return images
 
 class BaseDataLoader():
     def __init__(self):
         pass
     def load_data():
         return None
-      
+
+def get_transform():
+    transform_list = []
+    if opt.resize_or_crop == 'resize_and_crop':
+        osize = [loadSize, loadSize]
+        transform_list.append(transforms.Scale(osize, Image.BICUBIC))
+        transform_list.append(transforms.RandomCrop(fineSize))
+    elif opt.resize_or_crop == 'crop':
+        transform_list.append(transforms.RandomCrop(fineSize))
+    elif opt.resize_or_crop == 'scale_width':
+        transform_list.append(transforms.Lambda(
+            lambda img: __scale_width(img,fineSize)))
+    elif opt.resize_or_crop == 'scale_width_and_crop':
+        transform_list.append(transforms.Lambda(
+            lambda img: __scale_width(img, loadSize)))
+        transform_list.append(transforms.RandomCrop(fineSize))
+
+    if isTrain and not no_flip:
+        transform_list.append(transforms.RandomHorizontalFlip())
+
+    transform_list += [transforms.ToTensor(),
+                       transforms.Normalize((0.5, 0.5, 0.5),
+                                            (0.5, 0.5, 0.5))]
+    return transforms.Compose(transform_list)
+
+def __scale_width(img, target_width):
+    ow, oh = img.size
+    if (ow == target_width):
+        return img
+    w = target_width
+    h = int(target_width * oh / ow)
+    return img.resize((w, h), Image.BICUBIC)
 
 class UnalignedDataset(BaseDataset):
     def initialize(self):
@@ -28,7 +69,7 @@ class UnalignedDataset(BaseDataset):
         self.B_paths = sorted(self.B_paths)
         self.A_size = len(self.A_paths)
         self.B_size = len(self.B_paths)
-        self.transform = get_transform(opt)
+        self.transform = get_transform()
 
     def __getitem__(self, index):
         A_path = self.A_paths[index % self.A_size]
