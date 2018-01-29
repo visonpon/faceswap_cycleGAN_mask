@@ -168,7 +168,7 @@ global frames
 prev_x0 = prev_x1 = prev_y0 = prev_y1 = 0
 frames = 0
 
-output = 'OUTPUT_VIDEO.mp4'
-clip1 = VideoFileClip("INPUT_VIDEO.mp4")
+output = './ouputdir/OUTPUT_VIDEO.mp4'
+clip1 = VideoFileClip("./input_dir/INPUT_VIDEO.mp4")
 clip = clip1.fl_image(process_video)#.subclip(11, 13) #NOTE: this function expects color images!!
 #########################################################
