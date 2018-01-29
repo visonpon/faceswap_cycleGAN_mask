@@ -23,9 +23,8 @@ self.netD_B = networks.Discriminator().cuda()
 print('---------- Networks initialized -------------')
         networks.print_network(self.netG_A)
         networks.print_network(self.netG_B)
-        if self.isTrain:
-            networks.print_network(self.netD_A)
-            networks.print_network(self.netD_B)
+        networks.print_network(self.netD_A)
+        networks.print_network(self.netD_B)
 print('-----------------------------------------------')
 
 # training
