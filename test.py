@@ -18,13 +18,6 @@ def get_norm_layer(norm_type='instance'):
               
     return norm_layer
 ###################
-input_nc=3
-output_nc=3
-ngf=64
-norm = get_norm_layer(norm_type=norm)
-no_dropout = False
-gpu_ids =0
-###################
 netG_A = networks.Generator(opt.input_nc, opt.output_nc,opt.ngf, opt.norm, opt.no_dropout,opt.gpu_ids)
 netG_B = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, opt.no_dropout,opt.gpu_ids)
 netD_A = networks.Discriminator().cuda()
