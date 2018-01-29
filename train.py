@@ -14,8 +14,8 @@ dataset_size = len(data_loader)
 print('#training images = %d' % dataset_size)
 
 #init model
-self.netG_A = networks.Generator(input_nc, output_nc, ngf, norm, no_dropout, gpu_ids)
-self.netG_B = networks.Generator(input_nc, output_nc, ngf, norm, no_dropout, gpu_ids)
+self.netG_A = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, opt.no_dropout, opt.gpu_ids)
+self.netG_B = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, opt.no_dropout, opt.gpu_ids)
 
 self.netD_A = networks.Discriminator().cuda()
 self.netD_B = networks.Discriminator().cuda()
