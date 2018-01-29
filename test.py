@@ -30,7 +30,7 @@ def cycle_variables(netG):
     fn_abgr = K.function([distorted_input], [concatenate([alpha, rgb])])
     return distorted_input, fake_output, alpha, fn_generate, fn_mask, fn_abgr
     
-    """
+"""
 path_A: A function that takes distorted_A as input and outputs fake_A.
 path_B: A function that takes distorted_B as input and outputs fake_B.
 path_mask_A: A function that takes distorted_A as input and outputs mask_A.
@@ -39,4 +39,4 @@ path_abgr_A: A function that takes distorted_A as input and outputs concat([mask
 path_abgr_B: A function that takes distorted_B as input and outputs concat([mask_B, fake_B]).
 real_A: A (batch_size, 64, 64, 3) tensor, target images for generator_A given input distorted_A.
 real_B: A (batch_size, 64, 64, 3) tensor, target images for generator_B given input distorted_B.
-    """
+"""
