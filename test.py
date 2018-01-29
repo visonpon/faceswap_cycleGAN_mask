@@ -29,8 +29,9 @@ netG_A = networks.Generator(opt.input_nc, opt.output_nc,opt.ngf, opt.norm, opt.n
 netG_B = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, opt.no_dropout,opt.gpu_ids)
 netD_A = networks.Discriminator().cuda()
 netD_B = networks.Discriminator().cuda()
-save_filename = '%s_net_%s.pth' % (epoch_label, network_label)
-       
+
+
+save_filename = '%s_net_%s.pth' % (epoch_label, network_label)    
 try:
     netG_A.load_state_dict(torch.load(os.path.join(self.save_dir, save_filename1)))
     netG_B.load_state_dict(torch.load(os.path.join(self.save_dir, save_filename2)))
