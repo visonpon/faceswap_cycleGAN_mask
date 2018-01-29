@@ -1,6 +1,7 @@
 import torch
 from networks import *
 from PIL import Image
+import option as opt
 import functools
 import face_recognition
 from moviepy.editor import VideoFileClip
@@ -24,8 +25,8 @@ norm = get_norm_layer(norm_type=norm)
 no_dropout = False
 gpu_ids =0
 ###################
-netG_A = networks.Generator(input_nc, output_nc,ngf, norm, no_dropout,gpu_ids)
-netG_B = networks.Generator(input_nc, output_nc, ngf, norm, no_dropout,gpu_ids)
+netG_A = networks.Generator(opt.input_nc, opt.output_nc,opt.ngf, opt.norm, opt.no_dropout,opt.gpu_ids)
+netG_B = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, opt.no_dropout,opt.gpu_ids)
 netD_A = networks.Discriminator().cuda()
 netD_B = networks.Discriminator().cuda()
 save_filename = '%s_net_%s.pth' % (epoch_label, network_label)
