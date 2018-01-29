@@ -2,22 +2,23 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 import torch.nn.functional as F
+import option as opt
 
 class Generator(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, gpu_ids=[], padding_type='reflect'):
+    def __init__(self, opt.input_nc, opt.output_nc, opt.ngf, norm_layer=nn.BatchNorm2d, opt.use_dropout, opt.n_blocks, opt.gpu_ids, padding_type='reflect'):
         assert(n_blocks >= 0)
         super(Generator, self).__init__()
-        self.input_nc = input_nc
-        self.output_nc = output_nc
-        self.ngf = ngf
-        self.gpu_ids = gpu_ids
+        self.input_nc = opt.input_nc
+        self.output_nc = opt.output_nc
+        self.ngf = opt.ngf
+        self.gpu_ids = opt.gpu_ids
         if type(norm_layer) == functools.partial:
             use_bias = norm_layer.func == nn.InstanceNorm2d
         else:
             use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [nn.ReflectionPad2d(3),
-                 nn.Conv2d(input_nc, ngf, kernel_size=7, padding=0,
+                 nn.Conv2d(opt.input_nc, opt.ngf, kernel_size=7, padding=0,
                            bias=use_bias),
                  norm_layer(ngf),
                  nn.ReLU(True)]
