@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torchvision
-import option as op
+import option as opt
 from networks import *
 import model
 import data_process
