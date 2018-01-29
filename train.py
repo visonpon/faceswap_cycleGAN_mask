@@ -67,7 +67,4 @@ for epoch in range(0, opt.niter+ 1):
           (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
     model.update_learning_rate()
 
-    print('End of epoch %d / %d \t Time Taken: %d sec' %
-          (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
-    model.update_learning_rate()
 #save model
