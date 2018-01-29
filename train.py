@@ -4,11 +4,14 @@ import torchvision
 import option as op
 from networks import *
 import model
-
+import data_process
 #init some hyperparameter
 
 #init training data
-
+data_loader = CustomDatasetDataLoader()
+dataset = data_loader.load_data()
+dataset_size = len(data_loader)
+print('#training images = %d' % dataset_size)
 
 #init model
 self.netG_A = networks.Generator(opt.input_nc, opt.output_nc,
