@@ -5,6 +5,7 @@ import option as opt
 from networks import *
 import model
 import data_process
+from visualizer import Visualizer
 #init some hyperparameter
 
 #init training data
