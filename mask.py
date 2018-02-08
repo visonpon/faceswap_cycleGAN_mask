@@ -18,7 +18,7 @@ transformer = torchvision.transforms.Compose([
             lambda img: img[:, 1:-1, 1:-1]),
         torchvision.transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
     ])
-dataset = torchvision.datasets.ImageFolder('data/celeba/', transformer)
+dataset = torchvision.datasets.ImageFolder('data/', transformer)
 
 labels_neg = [i for i, (_, l) in enumerate(dataset.imgs) if l == 0]
 labels_pos = [i for i, (_, l) in enumerate(dataset.imgs) if l == 1]
@@ -34,6 +34,7 @@ def mask(input):
     netG = networks.Generator(opt.input_nc, opt.output_nc, opt.ngf, opt.norm, not opt.no_dropout,opt.gpu_ids)
     _,mask = netG(input)
     return mask
+
 for epoch in xrange(n_epochs):
     for (pos, _), (neg, _) in itertools.izip(pos_loader, neg_loader):
         mask_pos = mask(pos)
