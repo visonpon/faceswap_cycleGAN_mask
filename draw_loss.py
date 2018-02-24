@@ -62,11 +62,11 @@ plt.subplots_adjust(right=0.8) # ajust the right boundary of the plot window
 #par1 = host.twinx()  
 # set labels  
 host.set_xlabel("iterations")  
-host.set_ylabel("RPN loss")  
+host.set_ylabel("loss")  
 #par1.set_ylabel("validation accuracy")  
   
 # plot curves  
-p1, = host.plot(train_iterations, train_loss, label="train RPN loss")  
+p1, = host.plot(train_iterations, train_loss, label="train loss")  
 #p2, = par1.plot(test_iterations, test_accuracy, label="validation accuracy")  
   
 # set location of the legend,   
